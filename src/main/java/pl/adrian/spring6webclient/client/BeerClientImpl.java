@@ -3,6 +3,7 @@ package pl.adrian.spring6webclient.client;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import pl.adrian.spring6webclient.model.BeerDTO;
 import reactor.core.publisher.Flux;
 
 import java.util.Map;
@@ -33,5 +34,11 @@ public class BeerClientImpl implements BeerClient {
     public Flux<JsonNode> listBeersJsonNode() {
         return webClient.get().uri(BEER_PATH)
                 .retrieve().bodyToFlux(JsonNode.class);
+    }
+
+    @Override
+    public Flux<BeerDTO> listBeerDtos() {
+        return webClient.get().uri(BEER_PATH)
+                .retrieve().bodyToFlux(BeerDTO.class);
     }
 }
