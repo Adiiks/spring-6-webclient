@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import pl.adrian.spring6webclient.model.BeerDTO;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
@@ -40,5 +41,12 @@ public class BeerClientImpl implements BeerClient {
     public Flux<BeerDTO> listBeerDtos() {
         return webClient.get().uri(BEER_PATH)
                 .retrieve().bodyToFlux(BeerDTO.class);
+    }
+
+    @Override
+    public Mono<BeerDTO> getBeerById(String beerId) {
+        return webClient.get().uri(BEER_PATH + "/" + beerId)
+                .retrieve()
+                .bodyToMono(BeerDTO.class);
     }
 }
