@@ -25,6 +25,25 @@ class BeerClientImplTest {
     }
 
     @Test
+    void testUpdate() {
+
+        final String NAME = "New Name";
+
+        AtomicBoolean atomicBoolean = new AtomicBoolean(false);
+
+        beerClient.listBeerDtos()
+                .next()
+                .doOnNext(beerDTO -> beerDTO.setBeerName(NAME))
+                .flatMap(dto -> beerClient.updateBeer(dto))
+                .subscribe(byIdDto -> {
+                    System.out.println(byIdDto.toString());
+                    atomicBoolean.set(true);
+                });
+
+        await().untilTrue(atomicBoolean);
+    }
+
+    @Test
     void testCreateBeer() {
 
         AtomicBoolean atomicBoolean = new AtomicBoolean(false);
